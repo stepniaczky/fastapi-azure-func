@@ -226,17 +226,17 @@ async def update_order_data(id, req):
     )
 
 
-async def retrieve_orders_by_status(status):
+async def retrieve_orders_by_status(id):
     statuses = [status.name for status in await retrieve_statuses()]
 
-    if status not in statuses:
+    if id not in statuses:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Status not found"
         )
 
     orders_collection = get_collection('orders')
-    orders_cursor = orders_collection.find({'status': status})
+    orders_cursor = orders_collection.find({'status': id})
     orders = []
     for order in orders_cursor:
         orders.append(Order(**order))
