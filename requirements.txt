@@ -1,0 +1,11 @@
+azure-functions
+fastapi
+python-dotenv
+pymongo
+uvicorn
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+requests
+phonenumbers
+pydantic[email]
