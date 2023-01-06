@@ -23,7 +23,7 @@ async def create_user(data: UserAuth):
 
     if user:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
+            status_code=_400_BAD_REQUEST,
             detail="User with this email already exist"
         )
 
@@ -110,17 +110,17 @@ async def get_categories():
     return categories
 
 
-@router.get("/orders", tags=['orders'], summary="Get all orders", dependencies=[Depends(get_current_user)]
+@router.get("/orders", tags=['orders'], summary="Get all orders")
 async def get_orders():
-    orders=await retrieve_orders()
+    orders = await retrieve_orders()
 
     return orders
 
 
-@ router.post("/orders", tags=['orders'], summary='Create new order', dependencies=[Depends(get_current_user)])
-async def add_order(order: NewOrder=Body(...)):
-    o=Order(**order.dict(), status='Unapproved')
-    new_order=await add_new_order(o)
+@router.post("/orders", tags=['orders'], summary='Create new order', dependencies=[Depends(get_current_user)])
+async def add_order(order: NewOrder = Body(...)):
+    o = Order(**order.dict(), status='Unapproved')
+    new_order = await add_new_order(o)
 
     if not new_order:
         raise HTTPException(
@@ -131,22 +131,22 @@ async def add_order(order: NewOrder=Body(...)):
     return order
 
 
-@ router.put("/orders/{id}", tags=['orders'], summary='Update order by id', dependencies=[Depends(get_current_user)])
-async def update_order(id: str, req: dict=Body(...)):
-    updated_order=await update_order_data(id, req)
+@router.put("/orders/{id}", tags=['orders'], summary='Update order by id', dependencies=[Depends(get_current_user)])
+async def update_order(id: str, req: dict = Body(...)):
+    updated_order = await update_order_data(id, req)
 
     return updated_order
 
 
-@ router.get("/orders/status/{id}", tags=['orders'], summary="Get orders by status")
+@router.get("/orders/status/{id}", tags=['orders'], summary="Get orders by status")
 async def get_orders_by_status(id: str):
-    orders=await retrieve_orders_by_status(id)
+    orders = await retrieve_orders_by_status(id)
 
     return orders
 
 
-@ router.get("/status", tags=['status'], summary="Get all statuses")
+@router.get("/status", tags=['status'], summary="Get all statuses")
 async def get_statuses():
-    statuses=await retrieve_statuses()
+    statuses = await retrieve_statuses()
 
     return statuses

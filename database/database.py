@@ -221,7 +221,7 @@ async def update_order_data(id, req):
         return {"_id": id}
 
     raise HTTPException(
-        status_code=status.HTTP_404_BAD_REQUEST,
+        status_code=status.HTTP_404_NOT_FOUND,
         detail="Order not found"
     )
 
@@ -231,7 +231,7 @@ async def retrieve_orders_by_status(status):
 
     if status not in statuses:
         raise HTTPException(
-            status_code=status.HTTP_404_BAD_REQUEST,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Status not found"
         )
 
