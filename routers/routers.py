@@ -5,7 +5,7 @@ from fastapi import APIRouter, Body, status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import RedirectResponse
 
-from utils.schemas import UserOut, UserAuth, TokenSchema, NewOrder, ProductCreate
+from utils.schemas import UserOut, UserAuth, TokenSchema, NewOrder, ProductCreate, ProductUpdate
 from models.product import Product
 from models.order import Order
 from models.user import User
@@ -97,8 +97,8 @@ async def add_product(product: ProductCreate = Body(...)):
 
 
 @router.put("/products/{id}", tags=['products'], summary='Update product by id', dependencies=[Depends(get_current_user)])
-async def update_product(id: str, req: dict = Body(...)):
-    updated_product = await update_product_data(id, req)
+async def update_product(id: str, req: ProductUpdate = Body(...)):
+    updated_product = await update_product_data(id, req.__dict__)
 
     return updated_product
 
