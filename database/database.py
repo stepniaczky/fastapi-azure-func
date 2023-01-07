@@ -163,13 +163,13 @@ async def add_new_order(order):
             )
 
     for product_quantity in order.ordered_products:
-        if type(product_quantity) != int:
+        if type(order.ordered_products[product_quantity]) != int:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Product quantity must be an integer"
             )
 
-        if product_quantity < 1:
+        if order.ordered_products[product_quantity] < 1:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Product quantity must be greater than 0"
