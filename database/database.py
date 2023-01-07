@@ -181,11 +181,6 @@ async def add_new_order(order):
 
 
 async def update_order_data(id, req):
-    if "ordered_products" in req.keys():
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Cannot update ordered products"
-        )
 
     orders_collection = get_collection('orders')
     statuses = [status.name for status in await retrieve_statuses()]
@@ -193,6 +188,12 @@ async def update_order_data(id, req):
     order = orders_collection.find_one({'_id': id})
 
     if order:
+        if "ordered_products" in req.keys():
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot update ordered products"
+            )
+
         if order['status'] == StatusLevel[3]:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
